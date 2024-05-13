@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /home/larsen_online/faust-bot/ 
+cd /home/larsen_online/Dr.-Seuss-Bot/ 
 pwd > test
 LINES=`cat quelle.txt | wc -l`
 echo "$LINES" >> test
