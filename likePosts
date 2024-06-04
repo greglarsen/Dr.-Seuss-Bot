@@ -44,6 +44,8 @@ curl -L -X GET "https://public.api.bsky.app/xrpc/app.bsky.feed.searchPosts?q=\"$
 #curl -L -X GET "https://public.api.bsky.app/xrpc/app.bsky.feed.searchPosts?q=\"${STRING}\"&since=${DATE}T23:59:59.123Z" -H 'Accept: application/json' -H 'Authorization: Bearer $TOKEN' | tr '{' '\n' | grep author | grep -v type |grep -v alt | awk -F [\"] '{ print $4,$8 }'
 
 
+if [[ "$POSTS" != "" ]]; then
+
 printf %s "$POSTS
 " | 
 while IFS= read -r perams; do
@@ -64,5 +66,7 @@ module.exports = {
 /home/larsen_online/.nvm/versions/node/v18.20.2/bin/node ./likeit.js
 
 done
+
+fi
 
 done
