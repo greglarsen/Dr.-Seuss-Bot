@@ -20,7 +20,6 @@ Horton hatches the egg
 Thidwick, The Big Hearted Moose
 one fish two fish red fish blue fish
 McElligot's Pool
-The Cat in the Hat
 Did I ever tell you how lucky you are?
 North-going Zax
 General Genghis Kahn Schmitz
@@ -31,6 +30,9 @@ There is no one alive who is you-er than you
 Unless someone like you cares a whole awful lot
 A person's a person, no matter how small
 "
+
+#The Cat in the Hat
+
 
 printf %s "$SEARCHSTRINGS" | 
 while IFS= read -r line; do
