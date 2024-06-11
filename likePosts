@@ -80,10 +80,10 @@ module.exports = {
   myuri: '$URI',
   mycid: '$CID'
 };
-" > uri-cid
+" > /home/larsen_online/Dr.-Seuss-Bot/uri-cid
 
 
-/home/larsen_online/.nvm/versions/node/v18.20.2/bin/node ./likeit.js
+/home/larsen_online/.nvm/versions/node/v18.20.2/bin/node /home/larsen_online/Dr.-Seuss-Bot/likeit.js
 else
 echo "SKIPPING $THISPOSTER"
 fi
