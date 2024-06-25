@@ -8,6 +8,7 @@ DATE=`date -d "today" '+%Y-%m-%d'`
 #echo $DATE
 
 SEARCHSTRINGS="Theodor Geisel
+Fox in Socks
 The Sneetches and Other Stories
 pale green pants with nobody inside
 Yertle the turtle
