@@ -8,11 +8,14 @@ DATE=`date -d "today" '+%Y-%m-%d'`
 #echo $DATE
 
 SEARCHSTRINGS="Theodor Geisel
+Fox in Socks
 The Sneetches and Other Stories
 pale green pants with nobody inside
+Bartholomew Cubbins
 Yertle the turtle
 Mr. Brown can moo, can you?
 I Had Trouble in Getting to Solla Sollew
+You need a thneed
 Bartholomew and the Oobleck
 The 500 Hats of Bartholomew Cubbins
 Horton Hears a Who
