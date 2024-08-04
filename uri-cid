@@ -1,0 +1,6 @@
+ 
+module.exports = {
+  myuri: 'at://did:plc:aokpptetoabp65ycoqw2wloy/app.bsky.feed.post/3kyt7an2xcm2x',
+  mycid: 'bafyreihuq5qrhj5rgeax5peeoo2e3xda4j5gzr4rzghqztqayqimx4eqxm'
+};
+
