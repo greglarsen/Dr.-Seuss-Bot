@@ -1,0 +1,94 @@
+#!/bin/bash
+
+
+TOKEN='eyJhbGciOiJFUzI1NksifQ.eyJzY29wZSI6ImNvbS5hdHByb3RvLmFjY2VzcyIsInN1YiI6ImRpZDpwbGM6MmxiNWtpZ3Y3b3loY3VjeXc2d3BveW9kIiwiaWF0IjoxNzE3NDg3MjcwLCJleHAiOjE3MTc0OTQ0NzAsImF1ZCI6ImRpZDp3ZWI6dmVycGEudXMtd2VzdC5ob3N0LmJza3kubmV0d29yayJ9.k9CW0EQV5XvKf9ZZGKPrXIA66oF6hPKCG80nLzrvn5O-lxQ-B2vBaix9r7ZdcN4L0xRVHTerbglp9wxI5QZOqg'
+
+DATE=`date -d "today" '+%Y-%m-%d'`
+
+#echo $DATE
+
+SEARCHSTRINGS="Theodor Geisel
+The Sneetches and Other Stories
+pale green pants with nobody inside
+Yertle the turtle
+Mr. Brown can moo, can you?
+I Had Trouble in Getting to Solla Sollew
+Bartholomew and the Oobleck
+The 500 Hats of Bartholomew Cubbins
+Horton Hears a Who
+Horton hatches the egg
+Thidwick, The Big Hearted Moose
+The Lorax
+one fish two fish red fish blue fish
+McElligot's Pool
+The Cat in the Hat
+Did I ever tell you how lucky you are?
+North-going Zax
+General Genghis Kahn Schmitz
+Green eggs and ham
+Hop on pop
+And to Think That I Saw it on Mulberry Street
+There is no one alive who is you-er than you
+Unless someone like you cares a whole awful lot
+A person's a person, no matter how small
+"
+
+printf %s "$SEARCHSTRINGS" | 
+while IFS= read -r line; do
+
+
+STRING=`echo $line | sed 's| |%20|g' | sed 's|ö|%C3%B6|g' | sed 's|ä|%C3%A4|g' | sed 's|ü|%C3%BC|g' | sed 's|ß|%C3%9F|g' | sed 's|\?|%3F|g' | \
+sed "s|'|%27|g" | sed 's|\!|%21|g' | sed 's|,|%2C|g'`
+
+#echo "$STRING"
+
+
+
+POSTS=`curl -L -X GET "https://public.api.bsky.app/xrpc/app.bsky.feed.searchPosts?q=\"${STRING}\"&since=${DATE}T00:00:01.123Z" -H 'Accept: application/json' -H 'Authorization: Bearer $TOKEN' | sed "s|uri|\n|g" \
+| grep handle | awk -F [\"] '{print   $3 " "  $7 " "   $17 }'`
+
+#curl -L -X GET "https://public.api.bsky.app/xrpc/app.bsky.feed.searchPosts?q=\"${STRING}\"&since=${DATE}T23:59:59.123Z" -H 'Accept: application/json' -H 'Authorization: Bearer $TOKEN' | sed "s|uri|\n|g" \
+#| grep handle | awk -F [\"] '{print   $3 " "  $7 " "   $17 }'
+
+
+
+
+if [[ "$POSTS" != "" ]]; then
+
+printf %s "$POSTS
+" | 
+while IFS= read -r perams; do
+
+THISPOSTER=`echo $perams |awk '{ print $3}'`
+
+if [[ `echo $ALLPOSTERS | grep $THISPOSTER` == "" ]]; then
+ALLPOSTERS=$ALLPOSTERS$THISPOSTER
+
+
+URI=`echo $perams |awk '{ print $1}'`
+CID=`echo $perams |awk '{ print $2}'`
+
+
+#echo "$URI $CID"
+#echo $THISPOSTER
+#echo $ALLPOSTER
+#echo "$line"
+
+echo " 
+module.exports = {
+  myuri: '$URI',
+  mycid: '$CID'
+};
+" > uri-cid
+
+
+/home/larsen_online/.nvm/versions/node/v18.20.2/bin/node ./likeit.js
+else
+echo "SKIPPING $THISPOSTER"
+fi
+done
+
+fi
+
+
+done
