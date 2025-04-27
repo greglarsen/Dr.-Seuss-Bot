@@ -4,7 +4,7 @@ PASSWORD=`cat ./config2`
 #echo $PASSWORD
 
 TOKEN=`curl -X POST https://bsky.social/xrpc/com.atproto.server.createSession -H "Content-Type: application/json" -d '{
-  "identifier": "Dr.-Seuss-Bot.bsky.social",
+  "identifier": "dr-seuss-bot.bsky.social",
   "password": "'"$PASSWORD"'"
 }' | sed 's|.*accessJwt":"||g' | sed 's|".*||g'`
 
@@ -67,7 +67,7 @@ printf %s "$SEARCHSTRINGS" |
 while IFS= read -r line; do
 
 
-POSTS=$( curl -s -G "https://Dr.-Seuss-Bot.bsky.social/xrpc/app.bsky.feed.searchposts" \
+POSTS=$( curl -s -G "https://dr-seuss-bot.bsky.social/xrpc/app.bsky.feed.searchposts" \
     --data-urlencode "q=${line}" \
     --data-urlencode "since=${DATE}T00:00:01.123Z" \
     -H "Accept: application/json" \
