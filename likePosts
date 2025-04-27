@@ -1,3 +1,5 @@
+#!/bin/bash
+
 PASSWORD=`cat ./config2`
 #echo $PASSWORD
 
@@ -7,6 +9,8 @@ TOKEN=`curl -X POST https://bsky.social/xrpc/com.atproto.server.createSession -H
 }' | sed 's|.*accessJwt":"||g' | sed 's|".*||g'`
 
 #echo $TOKEN
+
+
 
 DATE=`date -d "today" '+%Y-%m-%d'`
 
@@ -51,30 +55,26 @@ A person's a person, no matter how small
 Sylvester McMonkey McBean
 Mrs McCave
 I love Dr Seuss
+Don't cry because it's over, smile because it happened
+Today you are You, that is truer than true
+You have brains in your head. You have feet in your shoes.
+Oh, the places you'll go
+Today was good. Today was fun. Tomorrow is another one
+You're off to Great Places! Today is your day!
 "
-
-#The Cat in the Hat
-
 
 printf %s "$SEARCHSTRINGS" | 
 while IFS= read -r line; do
 
 
-STRING=`echo $line | sed 's| |%20|g' | sed 's|ö|%C3%B6|g' | sed 's|ä|%C3%A4|g' | sed 's|ü|%C3%BC|g' | sed 's|ß|%C3%9F|g' | sed 's|\?|%3F|g' | \
-sed "s|'|%27|g" | sed 's|\!|%21|g' | sed 's|,|%2C|g'`
-
-#echo "$STRING"
-
-
-
-POSTS=`curl -L -X GET "https://public.api.bsky.app/xrpc/app.bsky.feed.searchPosts?q=\"${STRING}\"&since=${DATE}T00:00:01.123Z" -H 'Accept: application/json' -H 'Authorization: Bearer $TOKEN' | sed "s|uri|\n|g" \
-| grep handle | awk -F [\"] '{print   $3 " "  $7 " "   $17 }'`
-
-#curl -L -X GET "https://public.api.bsky.app/xrpc/app.bsky.feed.searchPosts?q=\"${STRING}\"&since=${DATE}T23:59:59.123Z" -H 'Accept: application/json' -H 'Authorization: Bearer $TOKEN' | sed "s|uri|\n|g" \
-#| grep handle | awk -F [\"] '{print   $3 " "  $7 " "   $17 }'
-
-
-
+POSTS=$( curl -s -G "https://faust-bot.bsky.social/xrpc/app.bsky.feed.searchposts" \
+    --data-urlencode "q=${line}" \
+    --data-urlencode "since=${DATE}T00:00:01.123Z" \
+    -H "Accept: application/json" \
+    -H "Authorization: Bearer $TOKEN"\
+ | sed "s|uri|\n|g" \
+| grep handle | awk -F [\"] '{print   $3 " "  $7 " "   $17 }'
+)
 
 if [[ "$POSTS" != "" ]]; then
 
@@ -92,20 +92,20 @@ URI=`echo $perams |awk '{ print $1}'`
 CID=`echo $perams |awk '{ print $2}'`
 
 
-#echo "$URI $CID"
-#echo $THISPOSTER
-#echo $ALLPOSTER
-#echo "$line"
+echo "$URI $CID"
+echo $THISPOSTER
+echo $ALLPOSTER
+echo "$line"
 
 echo " 
 module.exports = {
   myuri: '$URI',
   mycid: '$CID'
 };
-" > /home/larsen_online/Dr.-Seuss-Bot/uri-cid
+" > /home/larsen_online/faust-bot/uri-cid
 
 
-/home/larsen_online/.nvm/versions/node/v18.20.2/bin/node /home/larsen_online/Dr.-Seuss-Bot/likeit.js
+/home/larsen_online/.nvm/versions/node/v18.20.2/bin/node /home/larsen_online/faust-bot/likeit.js
 else
 echo "SKIPPING $THISPOSTER"
 fi
@@ -115,3 +115,4 @@ fi
 
 
 done
+
