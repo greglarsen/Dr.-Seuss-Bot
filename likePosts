@@ -1,4 +1,5 @@
 #!/bin/bash
+cd /home/larsen_online/Dr.-Seuss-Bot
 
 PASSWORD=`cat ./config2`
 #echo $PASSWORD
