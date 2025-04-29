@@ -67,6 +67,7 @@ You're off to Great Places! Today is your day!
 printf %s "$SEARCHSTRINGS" | 
 while IFS= read -r line; do
 
+line=`echo "\"$line\""`
 
 POSTS=$( curl -s -G "https://dr-seuss-bot.bsky.social/xrpc/app.bsky.feed.searchposts" \
     --data-urlencode "q=${line}" \
